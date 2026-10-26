@@ -1,4 +1,4 @@
-# Mi Cartelera Personal · Film Journal
+# Cinta · Mi Cartelera Personal
 
 App móvil (React Native + Expo, TypeScript) donde cada usuario busca películas y series en TMDB, las agrega a su lista personal y las organiza por estado (por ver, viendo, vista) con calificación y comentario propios. La lista es privada: se guarda en Firestore bajo el uid de cada usuario.
 

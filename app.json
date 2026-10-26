@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "Film Journal",
+    "name": "Cinta",
     "slug": "mi-cartelera",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -11,16 +11,13 @@
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#0A0A0A",
+        "backgroundColor": "#D4FF3A",
         "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
       "predictiveBackGestureEnabled": false,
       "package": "com.w4730.filmjournal",
-      "permissions": [
-        "android.permission.RECORD_AUDIO"
-      ]
+      "permissions": []
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -31,8 +28,17 @@
       [
         "expo-image-picker",
         {
-          "photosPermission": "Film Journal usa tus fotos solo para tu imagen de perfil.",
-          "cameraPermission": "Film Journal usa la cámara solo para tomar tu foto de perfil."
+          "photosPermission": "Cinta usa tus fotos solo para tu imagen de perfil.",
+          "cameraPermission": "Cinta usa la cámara solo para tomar tu foto de perfil.",
+          "microphonePermission": false
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/splash-icon.png",
+          "imageWidth": 160,
+          "backgroundColor": "#0A0A0A"
         }
       ]
     ],

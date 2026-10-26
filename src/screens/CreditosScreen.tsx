@@ -37,7 +37,7 @@ export function CreditosScreen({ navigation }: PropsPila<'Creditos'>) {
         </Tarjeta>
 
         <Tarjeta titulo="Acerca de">
-          <Text style={texto.subtitulo}>Film Journal · versión {VERSION}</Text>
+          <Text style={texto.subtitulo}>Cinta · versión {VERSION}</Text>
           <Text style={[texto.cuerpo, s.parrafoArriba]}>
             Proyecto académico de uso no comercial. Hecho con React Native, Expo, Firebase Auth y Firestore.
           </Text>

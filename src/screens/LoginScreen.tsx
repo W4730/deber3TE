@@ -2,7 +2,7 @@ import Lucide from '@react-native-vector-icons/lucide';
 import { useRef, useState, type ComponentRef } from 'react';
 import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Boton, Campo, Formulario, Hero } from '../components/ui';
+import { Boton, Campo, Formulario, Hero, Marca } from '../components/ui';
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import { iniciarSesion, registrar, traducirErrorAuth } from '../services/authService';
 import { UsuarioOcupadoError } from '../services/perfilService';
@@ -85,6 +85,9 @@ export function LoginScreen() {
   return (
     <Formulario style={s.pantalla} contentContainerStyle={[s.contenido, { paddingBottom: insets.bottom + 12 }]} bounces={false}>
       <Hero alto={(esRegistro ? 170 : 250) + insets.top} etiqueta={esRegistro ? 'Registro' : 'Inicio de sesión'} />
+      <View style={[s.marca, { top: insets.top + 12 }]}>
+        <Marca />
+      </View>
 
       <View style={[s.cuerpo, esRegistro && s.cuerpoRegistro]}>
         <Text style={texto.display} accessibilityRole="header">
@@ -227,6 +230,7 @@ const estilos = ({ color }: Tema) =>
     contenido: { flexGrow: 1 },
     cuerpo: { flex: 1, paddingHorizontal: MARGEN, marginTop: -12 },
     cuerpoRegistro: { marginTop: 8 },
+    marca: { position: 'absolute', left: MARGEN },
     intro: { marginTop: 8 },
     campos: { marginTop: 24, gap: 12 },
     fila: { flexDirection: 'row', gap: 12 },

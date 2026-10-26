@@ -34,6 +34,7 @@ import { MARGEN, radio, TOQUE, type Tema } from '../theme';
 export type { LucideIconName };
 
 const HERO = require('../../assets/hero.jpg');
+const LOGO = require('../../assets/logo.svg');
 
 export function confirmarCerrarSesion() {
   Alert.alert('¿Cerrar sesión?', 'Tu lista queda guardada en tu cuenta.', [
@@ -302,18 +303,15 @@ export function AvisoSinConexion({ onReintentar, cargando }: { onReintentar: () 
   );
 }
 
+/** Logo + nombre de la app. */
 export function Marca() {
-  const { texto } = useTema();
   const s = useEstilos(estilos);
   return (
-    <View style={s.marca} accessible accessibilityRole="header" accessibilityLabel="Film Journal">
-      <View style={s.marcaIcono}>
-        <Text style={s.marcaLetra}>F</Text>
-      </View>
-      <View>
-        <Text style={[texto.etiqueta, s.marcaFilm]}>Film</Text>
-        <Text style={s.marcaNombre}>Journal</Text>
-      </View>
+    <View style={s.marca} accessible accessibilityRole="header" accessibilityLabel="Cinta">
+      <Image source={LOGO} style={s.marcaLogo} contentFit="contain" />
+      <Text style={s.marcaNombre} maxFontSizeMultiplier={1.3}>
+        Cinta
+      </Text>
     </View>
   );
 }
@@ -613,17 +611,8 @@ const estilos = ({ color }: Tema) =>
     avisoBotonTexto: { color: color.acento, fontWeight: '700', fontSize: 14 },
 
     marca: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-    marcaIcono: {
-      width: 36,
-      height: 36,
-      borderRadius: 10,
-      backgroundColor: color.acento,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    marcaLetra: { color: color.sobreAcento, fontSize: 18, fontWeight: '900' },
-    marcaFilm: { fontSize: 10, letterSpacing: 1.6 },
-    marcaNombre: { color: color.texto, fontSize: 17, fontWeight: '800', letterSpacing: -0.3, marginTop: -2 },
+    marcaLogo: { width: 36, height: 36 },
+    marcaNombre: { color: color.texto, fontSize: 22, fontWeight: '800', letterSpacing: -0.8 },
 
     hero: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     heroVelo: {
