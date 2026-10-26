@@ -1,25 +1,47 @@
 {
   "expo": {
-    "name": "deber3",
-    "slug": "deber3",
+    "name": "Film Journal",
+    "slug": "mi-cartelera",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
+        "backgroundColor": "#0A0A0A",
         "foregroundImage": "./assets/android-icon-foreground.png",
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "package": "com.w4730.filmjournal",
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-image",
+      "@react-native-vector-icons/lucide",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Film Journal usa tus fotos solo para tu imagen de perfil.",
+          "cameraPermission": "Film Journal usa la cámara solo para tomar tu foto de perfil."
+        }
+      ]
+    ],
+    "backgroundColor": "#0A0A0A",
+    "extra": {
+      "eas": {
+        "projectId": "f5e2edce-0c83-4c07-b52c-0e8efccc9e79"
+      }
+    },
+    "owner": "w4730"
   }
 }
