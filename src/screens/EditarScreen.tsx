@@ -16,6 +16,7 @@ import {
 } from '../components/ui';
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import { useCartelera } from '../context/CarteleraContext';
+import { MAX_COMENTARIO } from '../dominio/lista';
 import { usePeticion } from '../hooks/usePeticion';
 import type { PropsPila } from '../navigation';
 import { crearItemId } from '../services/listaService';
@@ -24,7 +25,6 @@ import { MARGEN, radio, TOQUE, type Tema } from '../theme';
 import type { EstadoVisionado } from '../types';
 
 const ESTADOS = (['por_ver', 'viendo', 'vista'] as const).map((e) => ({ valor: e, nombre: NOMBRE_ESTADO[e] }));
-const MAX_COMENTARIO = 500;
 
 export function EditarScreen({ route, navigation }: PropsPila<'Editar'>) {
   const { tipo, tmdbId } = route.params;

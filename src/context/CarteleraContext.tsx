@@ -1,4 +1,5 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { normalizarCambios } from '../dominio/lista';
 import { escucharSesion, type User } from '../services/authService';
 import { SinConexionError } from '../services/firebase';
 import * as listaService from '../services/listaService';
@@ -144,12 +145,7 @@ export function CarteleraProvider({ children }: { children: ReactNode }) {
 
   const actualizar = useCallback(
     async (itemId: string, cambios: CambiosItem) => {
-      // RF6: solo se califica una obra vista; el comentario tiene tope de 500.
-      const limpios: CambiosItem = {
-        estado: cambios.estado,
-        calificacionPersonal: cambios.estado === 'vista' ? cambios.calificacionPersonal : null,
-        comentario: cambios.comentario.trim().slice(0, 500),
-      };
+      const limpios = normalizarCambios(cambios);
       const nueva = listaRef.current.map((i) =>
         i.id === itemId ? { ...i, ...limpios, actualizadoEn: Date.now() } : i,
       );
