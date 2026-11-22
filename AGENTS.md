@@ -4,19 +4,19 @@ App móvil (Expo SDK 57, React Native 0.86, TypeScript) donde cada usuario busca
 
 ## Capas y carpetas
 
-| Carpeta | Responsabilidad |
-|---|---|
-| `src/screens/` | Pantallas. Solo UI: nunca importan `firebase/*` ni llaman a `fetch` |
-| `src/components/` | Componentes reutilizables (`ui.tsx`, `obra.tsx`) |
-| `src/services/` | **Único** lugar que habla con Firebase, TMDB, AsyncStorage y la cámara o galería |
-| `src/context/` | Estado global: `CarteleraContext` (usuario, perfil, lista) y `AccesibilidadContext` (tema) |
-| `src/dominio/` | Lógica de negocio pura: sin Firebase, sin React y sin `new Date()`. Cada función tiene su test |
-| `src/hooks/` | Hooks genéricos (`usePeticion`) |
-| `src/navigation/` | **React Navigation** (pila + pestañas). No usar Expo Router |
-| `src/types/` | Tipos de dominio y respuestas de TMDB |
-| `src/utils/` | Validación de formularios |
-| `firestore.rules` | Reglas publicadas en Firebase; deben coincidir con lo que escribe `services/` |
-| `docs/` | Auditoría, PRD, backlog, specs, diseño, verificación y bitácora de IA |
+| Carpeta           | Responsabilidad                                                                                |
+| ----------------- | ---------------------------------------------------------------------------------------------- |
+| `src/screens/`    | Pantallas. Solo UI: nunca importan `firebase/*` ni llaman a `fetch`                            |
+| `src/components/` | Componentes reutilizables (`ui.tsx`, `obra.tsx`)                                               |
+| `src/services/`   | **Único** lugar que habla con Firebase, TMDB, AsyncStorage y la cámara o galería               |
+| `src/context/`    | Estado global: `CarteleraContext` (usuario, perfil, lista) y `AccesibilidadContext` (tema)     |
+| `src/dominio/`    | Lógica de negocio pura: sin Firebase, sin React y sin `new Date()`. Cada función tiene su test |
+| `src/hooks/`      | Hooks genéricos (`usePeticion`)                                                                |
+| `src/navigation/` | **React Navigation** (pila + pestañas). No usar Expo Router                                    |
+| `src/types/`      | Tipos de dominio y respuestas de TMDB                                                          |
+| `src/utils/`      | Validación de formularios                                                                      |
+| `firestore.rules` | Reglas publicadas en Firebase; deben coincidir con lo que escribe `services/`                  |
+| `docs/`           | Auditoría, PRD, backlog, specs, diseño, verificación y bitácora de IA                          |
 
 ## Comandos de verificación
 
@@ -30,6 +30,8 @@ npx expo-doctor      # dependencias compatibles con el SDK
 `npm test` y `npx tsc --noEmit` deben pasar antes de cada commit de código.
 
 ## Reglas
+
+- **Antes de tocar pantallas o componentes, leer [DESIGN.md](DESIGN.md).** Colores, tipografía y tamaños salen de `src/tema/`; nunca un hexadecimal ni un `rgba()` fuera de ahí. `DESIGN.md` no se modifica sin que lo pida el estudiante.
 
 - **Nunca leer, mostrar ni editar `.env`**, ni pedir claves de Firebase o TMDB. Las variables se usan solo como `process.env.EXPO_PUBLIC_*` dentro de `src/services/`.
 - **Pantallas sin Firebase:** la lógica de negocio va en `src/dominio/` y el acceso a datos en `src/services/`.
