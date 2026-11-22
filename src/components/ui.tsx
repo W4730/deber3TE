@@ -29,7 +29,7 @@ import {
 } from 'react-native';
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import { cerrarSesion } from '../services/authService';
-import { MARGEN, radio, TOQUE, type Tema } from '../theme';
+import { MARGEN, radio, TOQUE, type Tema } from '../tema';
 
 export type { LucideIconName };
 
@@ -186,7 +186,7 @@ export function Etiqueta({ texto: t, tono = 'suave' }: { texto: string; tono?: T
   const tonos: Record<Tono, { fondo: ViewStyle; tinta: string }> = {
     acento: { fondo: { backgroundColor: color.acento }, tinta: color.sobreAcento },
     suave: { fondo: { backgroundColor: color.acentoSuave }, tinta: color.acento },
-    contorno: { fondo: { backgroundColor: color.velo, borderColor: 'rgba(212, 255, 58, 0.4)' }, tinta: color.acento },
+    contorno: { fondo: { backgroundColor: color.velo, borderColor: color.bordeContorno }, tinta: color.acento },
     neutro: { fondo: { backgroundColor: color.superficieAlta }, tinta: color.textoSecundario },
   };
   return (
@@ -333,7 +333,15 @@ export function Hero({ etiqueta, alto, style }: { etiqueta?: string; alto: numbe
 }
 
 /** Foto de perfil o, si no hay, las iniciales. */
-export function Avatar({ foto, iniciales, tamano }: { foto: string | null | undefined; iniciales: string; tamano: number }) {
+export function Avatar({
+  foto,
+  iniciales,
+  tamano,
+}: {
+  foto: string | null | undefined;
+  iniciales: string;
+  tamano: number;
+}) {
   const { transicion } = useTema();
   const s = useEstilos(estilos);
   const forma = { width: tamano, height: tamano, borderRadius: tamano / 2 };
@@ -496,7 +504,7 @@ const estilos = ({ color }: Tema) =>
     botonPrimario: { backgroundColor: color.acento },
     primarioInactivo: { backgroundColor: color.superficieAlta },
     botonSecundario: { backgroundColor: color.superficie, borderWidth: 1, borderColor: color.borde },
-    brillo: { boxShadow: '0px 8px 24px rgba(212, 255, 58, 0.22)' },
+    brillo: { boxShadow: color.brillo },
     botonTexto: { fontSize: 16, fontWeight: '700' },
 
     iconoBoton: {
@@ -607,7 +615,13 @@ const estilos = ({ color }: Tema) =>
       borderWidth: 1,
       borderColor: color.borde,
     },
-    avisoBoton: { minHeight: TOQUE, minWidth: 96, paddingHorizontal: 14, alignItems: 'center', justifyContent: 'center' },
+    avisoBoton: {
+      minHeight: TOQUE,
+      minWidth: 96,
+      paddingHorizontal: 14,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
     avisoBotonTexto: { color: color.acento, fontWeight: '700', fontSize: 14 },
 
     marca: { flexDirection: 'row', alignItems: 'center', gap: 10 },
@@ -616,7 +630,7 @@ const estilos = ({ color }: Tema) =>
 
     hero: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     heroVelo: {
-      experimental_backgroundImage: `linear-gradient(180deg, rgba(10, 10, 10, 0.5) 0%, rgba(10, 10, 10, 0.2) 45%, ${color.fondo} 100%)`,
+      experimental_backgroundImage: color.veloHero,
     },
 
     avatar: {

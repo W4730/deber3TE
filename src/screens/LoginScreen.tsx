@@ -6,7 +6,7 @@ import { Boton, Campo, Formulario, Hero, Marca } from '../components/ui';
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import { iniciarSesion, registrar, traducirErrorAuth } from '../services/authService';
 import { UsuarioOcupadoError } from '../services/perfilService';
-import { MARGEN, TOQUE, type Tema } from '../theme';
+import { MARGEN, TOQUE, type Tema } from '../tema';
 import {
   errorClaveNueva,
   errorConfirmacion,

@@ -19,7 +19,7 @@ import { useCartelera } from '../context/CarteleraContext';
 import type { PropsPestana } from '../navigation';
 import { crearItemId } from '../services/listaService';
 import { buscar } from '../services/tmdbService';
-import { MARGEN, radio, TOQUE, type Tema } from '../theme';
+import { MARGEN, radio, TOQUE, type Tema } from '../tema';
 import type { EstadoPeticion, PaginaBusqueda, ResultadoBusqueda } from '../types';
 
 const ESPACIO = 14;
@@ -131,7 +131,12 @@ export function BuscarScreen({ navigation }: PropsPestana<'Buscar'>) {
           </View>
         )}
         {entrada.length > 0 && (
-          <Pressable accessibilityRole="button" accessibilityLabel="Borrar búsqueda" onPress={() => setEntrada('')} style={s.borrar}>
+          <Pressable
+            accessibilityRole="button"
+            accessibilityLabel="Borrar búsqueda"
+            onPress={() => setEntrada('')}
+            style={s.borrar}
+          >
             <Lucide name="x" size={18} color={color.textoSecundario} />
           </Pressable>
         )}
@@ -283,8 +288,7 @@ const estilos = ({ color }: Tema) =>
     posterVelo: {
       ...StyleSheet.absoluteFill,
       borderRadius: radio.m,
-      experimental_backgroundImage:
-        'linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0) 30%, rgba(10,10,10,0) 65%, rgba(10,10,10,0.8) 100%)',
+      experimental_backgroundImage: color.veloPoster,
     },
     posterArriba: {
       position: 'absolute',

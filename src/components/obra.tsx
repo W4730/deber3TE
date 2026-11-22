@@ -3,7 +3,7 @@ import { Image } from 'expo-image';
 import { ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import { urlImagen, type TamanoImagen } from '../services/tmdbService';
-import { radio, type Tema } from '../theme';
+import { radio, type Tema } from '../tema';
 import type { EstadoVisionado, MiembroElenco } from '../types';
 import { Etiqueta, Tarjeta } from './ui';
 

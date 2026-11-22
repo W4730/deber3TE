@@ -7,7 +7,7 @@ import { AvisoSinConexion, Chip, Etiqueta, EstadoVacio } from '../components/ui'
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import { useCartelera } from '../context/CarteleraContext';
 import type { PropsPestana } from '../navigation';
-import { MARGEN, type Tema } from '../theme';
+import { MARGEN, type Tema } from '../tema';
 import type { EstadoVisionado, ItemLista, TipoObra } from '../types';
 
 const ESPACIO = 12;

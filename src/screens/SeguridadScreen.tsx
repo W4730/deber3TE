@@ -13,7 +13,7 @@ import {
   reenviarVerificacion,
   traducirErrorAuth,
 } from '../services/authService';
-import { MARGEN, type Tema } from '../theme';
+import { MARGEN, type Tema } from '../tema';
 import { errorClaveNueva, errorConfirmacion, errorCorreo, soloErrores } from '../utils/validacion';
 
 // En esta pantalla "credencial inválida" solo puede significar que la contraseña actual está mal.

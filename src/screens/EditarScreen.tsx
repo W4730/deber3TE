@@ -21,7 +21,7 @@ import { usePeticion } from '../hooks/usePeticion';
 import type { PropsPila } from '../navigation';
 import { crearItemId } from '../services/listaService';
 import { obtenerDetalle, urlImagen } from '../services/tmdbService';
-import { MARGEN, radio, TOQUE, type Tema } from '../theme';
+import { MARGEN, radio, TOQUE, type Tema } from '../tema';
 import type { EstadoVisionado } from '../types';
 
 const ESTADOS = (['por_ver', 'viendo', 'vista'] as const).map((e) => ({ valor: e, nombre: NOMBRE_ESTADO[e] }));
@@ -213,7 +213,7 @@ const estilos = ({ color }: Tema) =>
       backgroundColor: color.superficie,
     },
     portadaVelo: {
-      experimental_backgroundImage: 'linear-gradient(180deg, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.7) 100%)',
+      experimental_backgroundImage: color.veloPortada,
     },
     titulo: { color: color.texto, fontSize: 26, fontWeight: '800', letterSpacing: -0.6, marginBottom: 2 },
 

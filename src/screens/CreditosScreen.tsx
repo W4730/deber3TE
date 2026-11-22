@@ -4,7 +4,7 @@ import { AvisoTmdb } from '../components/obra';
 import { Boton, Encabezado, Hero, Tarjeta, confirmarCerrarSesion } from '../components/ui';
 import { useEstilos, useTema } from '../context/AccesibilidadContext';
 import type { PropsPila } from '../navigation';
-import { MARGEN, radio, type Tema } from '../theme';
+import { MARGEN, radio, type Tema } from '../tema';
 
 const VERSION = '1.0.0';
 

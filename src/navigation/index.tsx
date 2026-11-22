@@ -22,7 +22,7 @@ import { LoginScreen } from '../screens/LoginScreen';
 import { MiListaScreen } from '../screens/MiListaScreen';
 import { PerfilScreen } from '../screens/PerfilScreen';
 import { SeguridadScreen } from '../screens/SeguridadScreen';
-import { MARGEN, radio } from '../theme';
+import { MARGEN, radio } from '../tema';
 import type { TipoObra } from '../types';
 
 export type PestanasParams = {

@@ -1,7 +1,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { AccessibilityInfo, View } from 'react-native';
 import { guardarCache, leerCache } from '../services/cache';
-import { crearTema, PREFERENCIAS_INICIALES, type Preferencias, type Tema } from '../theme';
+import { crearTema, FONDO_CARGA, PREFERENCIAS_INICIALES, type Preferencias, type Tema } from '../tema';
 
 const CLAVE = 'cartelera:accesibilidad'; // del dispositivo, no de la cuenta
 
@@ -36,7 +36,7 @@ export function AccesibilidadProvider({ children }: { children: ReactNode }) {
   const valor = useMemo(() => ({ tema, preferencias, cambiar }), [tema, preferencias, cambiar]);
 
   // Unos milisegundos en negro evitan mostrar la app con el tamaño o contraste equivocados.
-  if (!listo) return <View style={{ flex: 1, backgroundColor: '#000' }} />;
+  if (!listo) return <View style={{ flex: 1, backgroundColor: FONDO_CARGA }} />;
   return <AccesibilidadContext value={valor}>{children}</AccesibilidadContext>;
 }
 

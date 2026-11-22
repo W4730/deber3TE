@@ -8,7 +8,7 @@ import type { PropsPila } from '../navigation';
 import { traducirErrorAuth } from '../services/authService';
 import { elegirFoto } from '../services/fotoService';
 import { UsuarioOcupadoError, guardarPerfil } from '../services/perfilService';
-import { MARGEN, TOQUE, type Tema } from '../theme';
+import { MARGEN, TOQUE, type Tema } from '../tema';
 import type { Perfil } from '../types';
 import { errorNombre, errorUsuario, limpiarUsuario, soloErrores } from '../utils/validacion';
 

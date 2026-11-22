@@ -14,6 +14,14 @@ const BASE = {
   acentoSuave: 'rgba(212, 255, 58, 0.12)',
   peligro: '#FF7A6B',
   velo: 'rgba(10, 10, 10, 0.62)', // fondo de controles sobre imágenes
+  barra: '#666662', // barras de meses no ganadores (Mi año)
+  bordeContorno: 'rgba(212, 255, 58, 0.4)', // etiqueta sobre imagen
+  brillo: '0px 8px 24px rgba(212, 255, 58, 0.22)', // sombra del botón primario
+  // Fundidos sobre fotos
+  veloHero: 'linear-gradient(180deg, rgba(10, 10, 10, 0.5) 0%, rgba(10, 10, 10, 0.2) 45%, #0A0A0A 100%)',
+  veloPoster:
+    'linear-gradient(180deg, rgba(10,10,10,0.35) 0%, rgba(10,10,10,0) 30%, rgba(10,10,10,0) 65%, rgba(10,10,10,0.8) 100%)',
+  veloPortada: 'linear-gradient(180deg, rgba(10,10,10,0.15) 0%, rgba(10,10,10,0.7) 100%)',
 };
 
 // Alto contraste: textos secundarios casi blancos, bordes visibles y velos más oscuros.
@@ -29,9 +37,16 @@ const CONTRASTE: typeof BASE = {
   acentoSuave: 'rgba(212, 255, 58, 0.22)',
   peligro: '#FF9C90',
   velo: 'rgba(0, 0, 0, 0.85)',
+  barra: '#A3A3A0',
+  veloHero: 'linear-gradient(180deg, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0.35) 45%, #000000 100%)',
+  veloPortada: 'linear-gradient(180deg, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.85) 100%)',
 };
 
+/** Fondo mientras cargan las preferencias (antes de que exista el tema). */
+export const FONDO_CARGA = CONTRASTE.fondo;
+
 export const radio = { s: 10, m: 14, l: 20 };
+export const espacio = { xs: 4, s: 8, m: 12, l: 16, xl: 20, xxl: 24, xxxl: 32 };
 export const MARGEN = 20; // margen lateral de todas las pantallas
 export const TOQUE = 44; // alto mínimo de cualquier elemento tocable
 
@@ -59,6 +74,13 @@ export function crearTema(p: Preferencias) {
     animado: !p.reducirMovimiento,
     texto: StyleSheet.create({
       display: { color: color.texto, fontSize: 32 * f, fontWeight: '800', letterSpacing: -0.8 },
+      dato: {
+        color: color.texto,
+        fontSize: 34 * f,
+        fontWeight: '800',
+        letterSpacing: -1,
+        fontVariant: ['tabular-nums'],
+      },
       titulo: { color: color.texto, fontSize: 22 * f, fontWeight: '700', letterSpacing: -0.3 },
       subtitulo: { color: color.texto, fontSize: 16 * f, fontWeight: '600' },
       cuerpo: { color: color.textoSecundario, fontSize: 15 * f, lineHeight: 22 * f },

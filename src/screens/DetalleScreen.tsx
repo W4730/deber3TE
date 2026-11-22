@@ -9,7 +9,7 @@ import { usePeticion } from '../hooks/usePeticion';
 import type { PropsPila } from '../navigation';
 import { crearItemId } from '../services/listaService';
 import { obtenerDetalle, urlImagen } from '../services/tmdbService';
-import { MARGEN, radio, type Tema } from '../theme';
+import { MARGEN, radio, type Tema } from '../tema';
 
 export function DetalleScreen({ route, navigation }: PropsPila<'Detalle'>) {
   const { tipo, tmdbId } = route.params;

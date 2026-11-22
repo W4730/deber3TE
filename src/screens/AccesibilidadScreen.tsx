@@ -3,7 +3,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Boton, Encabezado, Segmentado, Tarjeta } from '../components/ui';
 import { useAccesibilidad, useEstilos } from '../context/AccesibilidadContext';
 import type { PropsPila } from '../navigation';
-import { MARGEN, PREFERENCIAS_INICIALES, TOQUE, type EscalaTexto, type Tema } from '../theme';
+import { MARGEN, PREFERENCIAS_INICIALES, TOQUE, type EscalaTexto, type Tema } from '../tema';
 
 const TAMANOS: { valor: EscalaTexto; nombre: string }[] = [
   { valor: 1, nombre: 'Normal' },

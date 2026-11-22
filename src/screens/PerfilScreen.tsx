@@ -10,7 +10,7 @@ import { useCartelera } from '../context/CarteleraContext';
 import { usePeticion } from '../hooks/usePeticion';
 import type { PropsPestana } from '../navigation';
 import { obtenerDetalle, urlImagen } from '../services/tmdbService';
-import { MARGEN, radio, type Tema } from '../theme';
+import { MARGEN, radio, type Tema } from '../tema';
 
 export function PerfilScreen({ navigation }: PropsPestana<'Perfil'>) {
   const insets = useSafeAreaInsets();
