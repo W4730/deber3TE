@@ -12,7 +12,7 @@ import { espacio, MARGEN, radio, type Tema } from '../tema';
 import type { ItemLista } from '../types';
 
 /** 37.5 → "37,5 h" (D7). */
-const horasTexto = (horas: number) => `${String(horas).replace('.', ',')} h`;
+const horasTexto = (horas: number) => `${horas.toFixed(1).replace('.', ',')} h`;
 const plural = (n: number, uno: string, varios: string) => `${n} ${n === 1 ? uno : varios}`;
 
 export function MiAnioScreen({ navigation }: PropsPestana<'MiAnio'>) {
