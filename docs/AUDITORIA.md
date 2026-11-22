@@ -20,34 +20,34 @@ Punto de partida: tag `p3-final` (commit `c97920f`), rama `epica-mi-anio`.
 
 ### Requisitos del Proyecto 3
 
-| RF | Estado | Evidencia |
-|---|---|---|
-| RF1 Auth, sesión persistente, errores traducidos | Cumple | `services/firebase.ts` (`initializeAuth` + `getReactNativePersistence`), `services/authService.ts` (`traducirErrorAuth`) |
-| RF2 Búsqueda con carga, error y sin resultados | Cumple | `screens/BuscarScreen.tsx` (debounce de 400 ms, bandera `vigente`, `EstadoVacio`) |
-| RF3 Detalle; funciona sin póster ni sinopsis | Cumple | `components/obra.tsx` (`Poster` → "Sin póster", `TarjetaSinopsis` → texto alternativo) |
-| RF4 Agregar sin duplicados | Cumple | `services/listaService.ts` (`crearItemId` = `tipo_tmdbId`), `context/CarteleraContext.tsx` (`agregar`), `firestore.rules` (id = `tipo_tmdbId`) |
-| RF5 Filtro por estado y tipo | Cumple | `screens/MiListaScreen.tsx` (`visibles`) |
-| RF6 Estado, calificación 1–5 solo si vista, comentario ≤ 500 | Cumple, con deuda (H-05) | `context/CarteleraContext.tsx` (`actualizar`), `firestore.rules` (`itemValido`) |
-| RF7 Confirmar antes de borrar | Cumple | `screens/EditarScreen.tsx` (`confirmarEliminar`) |
-| RF8 Firestore + copia en AsyncStorage + aviso sin conexión | Cumple | `services/firebase.ts` (`conTiempoMaximo`), `services/cache.ts`, `components/ui.tsx` (`AvisoSinConexion`) |
-| RF9 Créditos con logo y atribución de TMDB, cerrar sesión | Cumple | `screens/CreditosScreen.tsx`, `components/obra.tsx` (`AvisoTmdb`) |
-| RF10 TypeScript por capas, sin `any`, claves fuera del repo | Cumple, con deuda (H-07) | Sin `any` explícitos en `src/`; `.env` ignorado y sin claves en el historial de git |
+| RF                                                           | Estado                   | Evidencia                                                                                                                                      |
+| ------------------------------------------------------------ | ------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| RF1 Auth, sesión persistente, errores traducidos             | Cumple                   | `services/firebase.ts` (`initializeAuth` + `getReactNativePersistence`), `services/authService.ts` (`traducirErrorAuth`)                       |
+| RF2 Búsqueda con carga, error y sin resultados               | Cumple                   | `screens/BuscarScreen.tsx` (debounce de 400 ms, bandera `vigente`, `EstadoVacio`)                                                              |
+| RF3 Detalle; funciona sin póster ni sinopsis                 | Cumple                   | `components/obra.tsx` (`Poster` → "Sin póster", `TarjetaSinopsis` → texto alternativo)                                                         |
+| RF4 Agregar sin duplicados                                   | Cumple                   | `services/listaService.ts` (`crearItemId` = `tipo_tmdbId`), `context/CarteleraContext.tsx` (`agregar`), `firestore.rules` (id = `tipo_tmdbId`) |
+| RF5 Filtro por estado y tipo                                 | Cumple                   | `screens/MiListaScreen.tsx` (`visibles`)                                                                                                       |
+| RF6 Estado, calificación 1–5 solo si vista, comentario ≤ 500 | Cumple, con deuda (H-05) | `context/CarteleraContext.tsx` (`actualizar`), `firestore.rules` (`itemValido`)                                                                |
+| RF7 Confirmar antes de borrar                                | Cumple                   | `screens/EditarScreen.tsx` (`confirmarEliminar`)                                                                                               |
+| RF8 Firestore + copia en AsyncStorage + aviso sin conexión   | Cumple                   | `services/firebase.ts` (`conTiempoMaximo`), `services/cache.ts`, `components/ui.tsx` (`AvisoSinConexion`)                                      |
+| RF9 Créditos con logo y atribución de TMDB, cerrar sesión    | Cumple                   | `screens/CreditosScreen.tsx`, `components/obra.tsx` (`AvisoTmdb`)                                                                              |
+| RF10 TypeScript por capas, sin `any`, claves fuera del repo  | Cumple, con deuda (H-07) | Sin `any` explícitos en `src/`; `.env` ignorado y sin claves en el historial de git                                                            |
 
 ### Hallazgos
 
-| Id | Hallazgo | Evidencia | Gravedad | Decisión |
-|---|---|---|---|---|
-| H-01 | No existe `SPEC.md`; la especificación del P3 quedó repartida entre el enunciado y el README | Raíz del repositorio | Media | Corregir ahora: esta auditoría usa los RF1–RF10 como referencia y la épica tendrá su spec en `docs/specs/` |
-| H-02 | `AGENTS.md` es la plantilla de Expo y ordena usar Expo Router, pero la app usa React Navigation (requisito del P3). Un agente en sesión nueva haría cambios equivocados | `AGENTS.md`, sección "Navigation & Routing" | Alta | Corregir ahora: reescribir `AGENTS.md` y crear `CLAUDE.md` |
-| H-03 | No hay ningún test automático ni sensor que compruebe el trabajo del agente | `package.json` sin script `test` | Alta | Corregir ahora: Vitest con un primer test (H-05) |
-| H-04 | No hay formato automático ni convención de commits | Sin Prettier; historial con mensajes libres ("app completa", "nuevas imagenes") | Media | Corregir ahora: hook de Prettier y skill `/commit` |
-| H-05 | La regla "solo se califica si el estado es vista" vive dentro de un `useCallback` del contexto; no se puede probar sin React | `context/CarteleraContext.tsx`, `actualizar` | Media | Corregir ahora: extraerla a `src/dominio/` como función pura y probarla |
-| H-06 | Hay colores fijos fuera del tema: un hexadecimal y 10 `rgba(...)` (degradados, velos, sombra y borde de etiqueta) | `context/AccesibilidadContext.tsx` (`#000`); `rgba` en `components/ui.tsx`, `screens/BuscarScreen.tsx` y `screens/EditarScreen.tsx` | Media | Riesgo conocido: se resuelve en el Hito 4 al pasar las pantallas a `src/tema/`. El sensor detectará hex **y** `rgb(a)` |
-| H-07 | Los documentos de Firestore se leen como `DocumentData` (tipado laxo), sin validar la forma | `services/listaService.ts` (`aItem`), `services/perfilService.ts` (`escucharPerfil`) | Baja | Riesgo conocido: las reglas validan la escritura; la lectura asume documentos válidos |
-| H-08 | El token de TMDB y la configuración de Firebase se pegaron en el chat del agente, y el agente leyó `.env` | Sesión de desarrollo del P3 | Alta | Corregir ahora: regenerar el token de TMDB y actualizarlo en `.env` y en EAS. La regla "nunca leer .env" entra en `AGENTS.md`. Momento clave para `docs/IA.md` |
-| H-09 | Tres capturas con el nombre real de una persona en un repositorio público | `docs/image copy.png`, `image copy 2.png`, `image copy 3.png` (commit `c97920f`) | Media | Riesgo conocido: decisión del estudiante. Se recomienda difuminarlas |
-| H-10 | `nombresUsuario/{usuario}` permite `get` sin sesión (revela el uid de un nombre de usuario) | `firestore.rules`, `match /nombresUsuario` | Baja | Riesgo conocido: necesario para comprobar disponibilidad antes del registro; no expone datos personales |
-| H-11 | El paquete Android sigue siendo `com.w4730.filmjournal` tras renombrar la app a "Cinta" | `app.json`, `android.package` | Baja | Fuera de alcance: cambiarlo crea una app distinta en el teléfono |
+| Id   | Hallazgo                                                                                                                                                                | Evidencia                                                                                                                           | Gravedad | Decisión                                                                                                                                                       |
+| ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| H-01 | No existe `SPEC.md`; la especificación del P3 quedó repartida entre el enunciado y el README                                                                            | Raíz del repositorio                                                                                                                | Media    | Corregir ahora: esta auditoría usa los RF1–RF10 como referencia y la épica tendrá su spec en `docs/specs/`                                                     |
+| H-02 | `AGENTS.md` es la plantilla de Expo y ordena usar Expo Router, pero la app usa React Navigation (requisito del P3). Un agente en sesión nueva haría cambios equivocados | `AGENTS.md`, sección "Navigation & Routing"                                                                                         | Alta     | Corregir ahora: reescribir `AGENTS.md` y crear `CLAUDE.md`                                                                                                     |
+| H-03 | No hay ningún test automático ni sensor que compruebe el trabajo del agente                                                                                             | `package.json` sin script `test`                                                                                                    | Alta     | Corregir ahora: Vitest con un primer test (H-05)                                                                                                               |
+| H-04 | No hay formato automático ni convención de commits                                                                                                                      | Sin Prettier; historial con mensajes libres ("app completa", "nuevas imagenes")                                                     | Media    | Corregir ahora: hook de Prettier y skill `/commit`                                                                                                             |
+| H-05 | La regla "solo se califica si el estado es vista" vive dentro de un `useCallback` del contexto; no se puede probar sin React                                            | `context/CarteleraContext.tsx`, `actualizar`                                                                                        | Media    | Corregir ahora: extraerla a `src/dominio/` como función pura y probarla                                                                                        |
+| H-06 | Hay colores fijos fuera del tema: un hexadecimal y 10 `rgba(...)` (degradados, velos, sombra y borde de etiqueta)                                                       | `context/AccesibilidadContext.tsx` (`#000`); `rgba` en `components/ui.tsx`, `screens/BuscarScreen.tsx` y `screens/EditarScreen.tsx` | Media    | Riesgo conocido: se resuelve en el Hito 4 al pasar las pantallas a `src/tema/`. El sensor detectará hex **y** `rgb(a)`                                         |
+| H-07 | Los documentos de Firestore se leen como `DocumentData` (tipado laxo), sin validar la forma                                                                             | `services/listaService.ts` (`aItem`), `services/perfilService.ts` (`escucharPerfil`)                                                | Baja     | Riesgo conocido: las reglas validan la escritura; la lectura asume documentos válidos                                                                          |
+| H-08 | El token de TMDB y la configuración de Firebase se pegaron en el chat del agente, y el agente leyó `.env`                                                               | Sesión de desarrollo del P3                                                                                                         | Alta     | Corregir ahora: regenerar el token de TMDB y actualizarlo en `.env` y en EAS. La regla "nunca leer .env" entra en `AGENTS.md`. Momento clave para `docs/IA.md` |
+| H-09 | Tres capturas con el nombre real de una persona en un repositorio público                                                                                               | `docs/image copy.png`, `image copy 2.png`, `image copy 3.png` (commit `c97920f`)                                                    | Media    | Riesgo conocido: decisión del estudiante. Se recomienda difuminarlas                                                                                           |
+| H-10 | `nombresUsuario/{usuario}` permite `get` sin sesión (revela el uid de un nombre de usuario)                                                                             | `firestore.rules`, `match /nombresUsuario`                                                                                          | Baja     | Riesgo conocido: necesario para comprobar disponibilidad antes del registro; no expone datos personales                                                        |
+| H-11 | El paquete Android sigue siendo `com.w4730.filmjournal` tras renombrar la app a "Cinta"                                                                                 | `app.json`, `android.package`                                                                                                       | Baja     | Fuera de alcance: cambiarlo crea una app distinta en el teléfono                                                                                               |
 
 ### Notas para la épica (no son fallos del P3)
 
@@ -55,6 +55,36 @@ Punto de partida: tag `p3-final` (commit `c97920f`), rama `epica-mi-anio`.
 - D3 depende de la zona horaria. Los tests de dominio fijan `TZ=America/Guayaquil` para no depender de la máquina.
 - `tmdbService.obtenerDetalle` ya pide `credits`. Los directores salen del `crew` sin otra petición.
 
-## Auditoría final
+## Auditoría final — 2026-11-22
 
-_Pendiente (Hito 4)._
+Rama `epica-mi-anio`. `npm test`: 40 de 40 pasan, entre ellos el sensor de colores. `npx tsc --noEmit`, `npx expo lint` y `npx expo-doctor` (21 de 21) también pasan.
+
+### Hallazgos iniciales
+
+| Id         | Estado                             | Cómo                                                                                                              |
+| ---------- | ---------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
+| H-01       | Resuelto                           | PRD, backlog y spec en `docs/`; la auditoría usa los RF1–RF10 como referencia                                     |
+| H-02       | Resuelto                           | `AGENTS.md` propio (React Navigation, capas, reglas) y `CLAUDE.md`                                                |
+| H-03       | Resuelto                           | Vitest: 40 tests de dominio y sensores                                                                            |
+| H-04       | Resuelto                           | Hook de Prettier y skill `/commit`; el historial de la épica sigue `docs:` → `test:` → `feat:`                    |
+| H-05       | Resuelto                           | `src/dominio/lista.ts` (`normalizarCambios`) con su test                                                          |
+| H-06       | Resuelto                           | Tema en `src/tema/`; las pantallas usan tokens y el sensor de colores fijos está en verde                         |
+| H-07       | Riesgo conocido                    | Sin cambios; la lectura ahora tolera los campos nuevos ausentes (`aItem`)                                         |
+| H-08       | **Pendiente del estudiante**       | Regenerar el token de TMDB y actualizarlo en `.env` y en EAS. La regla "nunca leer `.env`" ya está en `AGENTS.md` |
+| H-09       | Riesgo conocido                    | Sin cambios (decisión del estudiante)                                                                             |
+| H-10, H-11 | Riesgo conocido / fuera de alcance | Sin cambios                                                                                                       |
+
+### Hallazgos nuevos
+
+| Id   | Hallazgo                                                                                                                                                                              | Evidencia                                   | Gravedad | Decisión                                                                                                                     |
+| ---- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------- |
+| N-01 | Hasta que se publiquen las reglas nuevas, **toda obra que se agrega se revierte**: la app ya escribe `vistaEn`, `duracionMin` y `directores`, y las reglas publicadas no los permiten | `firestore.rules` (`itemValido`, `hasOnly`) | Alta     | **Pendiente del estudiante:** publicar `firestore.rules` antes de probar. El agente no tiene acceso a la consola de Firebase |
+| N-02 | Los tests de dominio dependen de la zona horaria (D3)                                                                                                                                 | `vitest.config.mts`                          | Media    | Resuelto: `TZ=America/Guayaquil` y un test del borde de año                                                                  |
+| N-03 | El selector de año estiraba los chips (visto en la vista web previa)                                                                                                                  | `components/resumen.tsx`                    | Baja     | Resuelto (`fix:`)                                                                                                            |
+| N-04 | D6 hace una petición a TMDB por obra; con muchas obras sin datos tarda (unos 300 ms cada una)                                                                                         | `CarteleraContext.prepararResumen`          | Baja     | Riesgo conocido: decisión del cliente (D6, de una en una); el progreso es visible                                            |
+| N-05 | La verificación de la interfaz se hizo en una vista web con datos de prueba, no en el teléfono                                                                                        | `docs/VERIFICACION.md`                      | Media    | **Pendiente del estudiante:** llenar la columna "Resultado obtenido" en Expo Go                                              |
+
+### Riesgos que quedan
+
+- Publicar las reglas (N-01) y regenerar el token (H-08) son **requisitos antes de la demo**.
+- Las migraciones D2 y D6 escriben en Firestore al abrir Mi año. Una cuenta con cientos de obras sin datos tardaría varios minutos (N-04).

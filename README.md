@@ -8,18 +8,47 @@ Integrar en una sola app autenticación con Firebase Auth, datos propios en Fire
 
 ## Pantallas
 
-| Pantalla | Contenido | Navegación |
-|---|---|---|
-| Login / Registro | Registro con nombre, apellido, usuario único, correo, contraseña y confirmación; errores por campo | Solo sin sesión |
-| Buscar | Búsqueda por título (películas y series), carátula, año y nota de TMDB; carga, error y sin resultados; paginación al hacer scroll | Pestaña |
-| Detalle | Póster, sinopsis, calificación TMDB, elenco, tráiler, compartir y "Agregar a mi lista" | Pila |
-| Mi lista | Filtros por estado (Por ver / Viendo / Vista) y tipo (Películas / Series); aviso sin conexión | Pestaña |
-| Editar mi entrada | Estado, calificación 1–5 (solo si está "Vista"), comentario hasta 500 caracteres y quitar con confirmación | Pila |
-| Perfil (Acerca de) | Foto, nombre, @usuario, accesos a cuenta y preferencias, atribución y logo de TMDB, cerrar sesión | Pestaña |
-| Editar perfil | Foto (cámara o galería), nombre, apellido y nombre de usuario | Pila |
-| Seguridad | Verificación del correo, cambio de correo y de contraseña (piden la contraseña actual) | Pila |
-| Accesibilidad | Tamaño de texto, alto contraste y reducir movimiento; se aplican a toda la app | Pila |
-| Créditos | Atribución de TMDB, créditos de imágenes, versión y cerrar sesión | Pila |
+| Pantalla           | Contenido                                                                                                                         | Navegación      |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------- | --------------- |
+| Login / Registro   | Registro con nombre, apellido, usuario único, correo, contraseña y confirmación; errores por campo                                | Solo sin sesión |
+| Buscar             | Búsqueda por título (películas y series), carátula, año y nota de TMDB; carga, error y sin resultados; paginación al hacer scroll | Pestaña         |
+| Detalle            | Póster, sinopsis, calificación TMDB, elenco, tráiler, compartir y "Agregar a mi lista"                                            | Pila            |
+| Mi lista           | Filtros por estado (Por ver / Viendo / Vista) y tipo (Películas / Series); aviso sin conexión                                     | Pestaña         |
+| **Mi año**         | Resumen anual: obras, horas, género y director más vistos, barras por mes, obra destacada y selector de año                       | Pestaña         |
+| Editar mi entrada  | Estado, calificación 1–5 (solo si está "Vista"), comentario hasta 500 caracteres y quitar con confirmación                        | Pila            |
+| Perfil (Acerca de) | Foto, nombre, @usuario, accesos a cuenta y preferencias, atribución y logo de TMDB, cerrar sesión                                 | Pestaña         |
+| Editar perfil      | Foto (cámara o galería), nombre, apellido y nombre de usuario                                                                     | Pila            |
+| Seguridad          | Verificación del correo, cambio de correo y de contraseña (piden la contraseña actual)                                            | Pila            |
+| Accesibilidad      | Tamaño de texto, alto contraste y reducir movimiento; se aplican a toda la app                                                    | Pila            |
+| Créditos           | Atribución de TMDB, créditos de imágenes, versión y cerrar sesión                                                                 | Pila            |
+
+## Épica: Mi año en cine (Proyecto 4)
+
+Rama `epica-mi-anio` (parte del tag `p3-final`). Qué cambió:
+
+- **Pestaña Mi año:** resumen del año calculado en `src/dominio/resumenAnual.ts` (reglas D1–D13 del [PRD](docs/prd/PRD.md)).
+- **Campos nuevos en cada obra:** `vistaEn`, `generos`, `duracionMin` y `directores`. Las obras anteriores reciben fecha y datos de TMDB al abrir Mi año.
+- **Tema:** los colores salen solo de `src/tema/` y siguen [DESIGN.md](DESIGN.md) y el [brand board](docs/diseno/brand-board.html).
+- **Harness para el agente:** [AGENTS.md](AGENTS.md), skill `/commit`, hook de Prettier y tests de Vitest.
+
+Documentos (en orden de proceso):
+
+1. [Auditoría](docs/AUDITORIA.md)
+2. [PRD](docs/prd/PRD.md)
+3. [Backlog](docs/backlog/epica-mi-anio.md)
+4. [Brief](docs/diseno/BRIEF.md)
+5. [Spec](docs/specs/01-mi-anio-en-cine.md)
+6. [Verificación](docs/VERIFICACION.md)
+7. [Bitácora de IA](docs/IA.md)
+
+## Tests
+
+```bash
+npm test            # Vitest: dominio (D1–D13), regla de calificación del P3 y sensor de colores fijos
+npx tsc --noEmit    # TypeScript
+```
+
+Los tests de dominio fijan la zona horaria (`America/Guayaquil`) en [vitest.config.mts](vitest.config.mts), así no dependen de la máquina. Ambos comandos deben pasar antes de cada commit de código.
 
 ## Instalación
 
@@ -33,10 +62,10 @@ npm run dev            # escanear el QR con Expo Go
 
 ### Variables de entorno (`.env`)
 
-| Variable | De dónde sale |
-|---|---|
-| `EXPO_PUBLIC_TMDB_TOKEN` | TMDB → Ajustes → API → *API Read Access Token* (el token largo `eyJ…`, **no** la API Key corta) |
-| `EXPO_PUBLIC_FIREBASE_API_KEY` y demás `EXPO_PUBLIC_FIREBASE_*` | Firebase → Configuración del proyecto → Tus apps → app web |
+| Variable                                                        | De dónde sale                                                                                   |
+| --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `EXPO_PUBLIC_TMDB_TOKEN`                                        | TMDB → Ajustes → API → _API Read Access Token_ (el token largo `eyJ…`, **no** la API Key corta) |
+| `EXPO_PUBLIC_FIREBASE_API_KEY` y demás `EXPO_PUBLIC_FIREBASE_*` | Firebase → Configuración del proyecto → Tus apps → app web                                      |
 
 `.env` está en `.gitignore`. Las variables `EXPO_PUBLIC_*` quedan dentro del paquete de la app: para este proyecto no comercial es aceptable, pero cualquiera que descomprima la app podría leer el token de TMDB. La solución completa es un proxy en un servidor propio.
 
@@ -83,17 +112,18 @@ src/
   hooks/usePeticion.ts       Estados cargando / error / éxito para cualquier petición
   navigation/                Pila + pestañas; Login condicional según la sesión
   screens/                   Una pantalla por archivo
-  components/                ui.tsx (botones, campos, formulario, tarjetas) y obra.tsx (póster, elenco, TMDB)
-  theme.ts                   Colores (normal y alto contraste), radios y tipografía escalable
+  components/                ui.tsx (botones, campos, formulario, tarjetas), obra.tsx (póster, elenco, TMDB) y resumen.tsx (Mi año)
+  dominio/                   Reglas de negocio puras con sus tests (resumenAnual, vistaEn, lista)
+  tema/                      Única fuente de colores, tipografía y espacios; test de colores fijos
 ```
 
 ## Modelo de datos
 
-| Ruta | Contenido |
-|---|---|
-| `usuarios/{uid}` | Perfil: `nombre`, `apellido`, `usuario`, `foto` (JPEG ~30 KB como data URI), `creadoEn`, `actualizadoEn` |
-| `nombresUsuario/{usuario}` | `{ uid }`: reserva el nombre de usuario. Las reglas no permiten crear uno que ya existe, así no hay dos iguales |
-| `usuarios/{uid}/mi_lista/{itemId}` | `itemId = tipo_tmdbId` (por ejemplo `movie_550`), así una obra no puede guardarse dos veces. Campos: `tmdbId`, `tipo`, `titulo`, `anio`, `posterPath`, `estado`, `calificacionPersonal`, `comentario`, `agregadoEn`, `actualizadoEn` |
+| Ruta                               | Contenido                                                                                                                                                                                                                                                                               |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `usuarios/{uid}`                   | Perfil: `nombre`, `apellido`, `usuario`, `foto` (JPEG ~30 KB como data URI), `creadoEn`, `actualizadoEn`                                                                                                                                                                                |
+| `nombresUsuario/{usuario}`         | `{ uid }`: reserva el nombre de usuario. Las reglas no permiten crear uno que ya existe, así no hay dos iguales                                                                                                                                                                         |
+| `usuarios/{uid}/mi_lista/{itemId}` | `itemId = tipo_tmdbId` (por ejemplo `movie_550`), así una obra no puede guardarse dos veces. Campos: `tmdbId`, `tipo`, `titulo`, `anio`, `posterPath`, `estado`, `calificacionPersonal`, `comentario`, `agregadoEn`, `actualizadoEn`, `vistaEn`, `generos`, `duracionMin`, `directores` |
 
 La foto de perfil se guarda en Firestore porque Firebase Storage exige el plan Blaze (de pago).
 
