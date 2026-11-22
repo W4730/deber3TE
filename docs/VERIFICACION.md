@@ -44,9 +44,37 @@
 | Diseño      | Perfil → Accesibilidad → texto Máximo y alto contraste → Mi año                       | Todo se lee y nada se corta; colores del tema de alto contraste                   | `sinColoresFijos.test` pasa |                    |
 | Aislamiento | Cuenta B intenta leer `usuarios/{uidA}/mi_lista` en el simulador                      | Denegado                                                                          | —                           |                    |
 
+## Verificación en emulador (agente)
+
+Esta sección **no reemplaza** la columna "Resultado obtenido", que se llena a mano en el teléfono. Es una pasada previa del agente.
+
+**Entorno:**
+
+- Emulador de Android 15 (Pixel, 1080 × 2400) con Expo Go SDK 58, el 22-nov-2026.
+- Cuenta demo `demo.cinta.p4@example.com` con 10 obras sembradas con fechas de 2025 y 2026, sin datos de TMDB.
+- Cuenta `demo.cinta2.p4@example.com`, sin obras vistas.
+- Capturas en [docs/capturas/](capturas/).
+
+| Criterio         | Qué se observó                                                                                                                                           | Captura                                               |
+| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------- |
+| A1.1 (D1)        | Marcar _El club de la pelea_ como vista guarda `vistaEn` con la hora del servidor                                                                        | `10-documento-mi-lista.png`                           |
+| A1.4 (D5)        | Agregar _Dune_ desde el ícono de Buscar guarda `generos` en español, `duracionMin: 167` y `directores: ["Denis Villeneuve"]` (unos segundos después, P7) | —                                                     |
+| A1.6             | Una escritura con `duracionMin: -5` fue **rechazada** por las reglas publicadas; las 10 obras válidas se aceptaron                                       | —                                                     |
+| A2.1–A2.9        | 2026: 7 obras (6 películas y 1 serie), 14,7 h, Ciencia ficción, Christopher Nolan, octubre, Dune destacada (empate a 5 estrellas resuelto por `vistaEn`) | `03-mi-anio-resumen.png`                              |
+| A3.1             | El selector muestra 2026 y 2025                                                                                                                          | `04-mi-anio-2025.png`                                 |
+| A3.2, A3.4 (D12) | La cuenta sin obras vistas ve solo 2026, "No viste nada en 2026" y "Ir a Mi lista", que abre la pestaña                                                  | `05-mi-anio-vacio.png`                                |
+| A4.3 (D6)        | "Completando datos de TMDB… n de 7" y el resumen se completa en vivo                                                                                     | `02-mi-anio-completando-datos.png`                    |
+| A5.2 (D13)       | En modo avión, el resumen se calcula con la copia local y aparece "Sin conexión"                                                                         | `06-mi-anio-sin-conexion.png`                         |
+| Teclado          | El último campo del registro y de Seguridad queda visible sobre el teclado                                                                               | `01-registro-teclado.png`, `08-seguridad-teclado.png` |
+| Tests            | `npm test` 40/40 y `tsc` sin errores                                                                                                                     | `09-npm-test.png`                                     |
+
 ## Lo que falló y cómo se resolvió
 
-| Fecha  | Qué falló                                                                   | Qué se hizo                                   |
-| ------ | --------------------------------------------------------------------------- | --------------------------------------------- |
-| 22-nov | En la vista web previa, los chips del selector de año se estiraban a ~95 px | `fix: el selector de año no estira los chips` |
-|        |                                                                             |                                               |
+| Fecha  | Qué falló                                                                                                              | Qué se hizo                                                           |
+| ------ | ---------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| 22-nov | En la vista web previa, los chips del selector de año se estiraban a ~95 px                                            | `fix: el selector de año no estira los chips`                         |
+| 22-nov | En Android el teclado tapaba el último campo de los formularios (coordenadas de pantalla vs. ventana)                  | `fix: el teclado ya no tapa el último campo…`                         |
+| 22-nov | En modo avión, Mi lista y Mi año salían vacíos y sin aviso: `getDocs` devolvía la caché vacía y borraba la copia local | `fix: sin conexión se conserva la copia local…` (`getDocsFromServer`) |
+| 22-nov | Una cuenta recién registrada quedó sin perfil; el mismo lote por REST sí pasaba las reglas                             | `fix: reintentar el perfil…` (no se pudo reproducir otra vez)         |
+| 22-nov | Las horas se mostraban "17 h" en vez de "17,0 h" (D7)                                                                  | `fix: horas de cine siempre con un decimal`                           |
+|        |                                                                                                                        |                                                                       |

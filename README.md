@@ -40,6 +40,7 @@ Documentos (en orden de proceso):
 5. [Spec](docs/specs/01-mi-anio-en-cine.md)
 6. [Verificación](docs/VERIFICACION.md)
 7. [Bitácora de IA](docs/IA.md)
+8. [Capturas](docs/capturas/): resumen con datos y vacío, sin conexión, `npm test` y un documento de `mi_lista` con los campos nuevos
 
 ## Tests
 
