@@ -3,7 +3,7 @@ import {
   collection,
   deleteDoc,
   doc,
-  getDocs,
+  getDocsFromServer,
   orderBy,
   query,
   serverTimestamp,
@@ -63,7 +63,9 @@ function aItem(snap: QueryDocumentSnapshot): ItemLista {
 }
 
 export async function obtener(uid: string): Promise<ItemLista[]> {
-  const snap = await conTiempoMaximo(getDocs(query(coleccion(uid), orderBy('agregadoEn', 'desc'))));
+  // Del servidor: sin red, getDocs devolvería la caché en memoria (vacía al abrir la app) y esa lista
+  // vacía reemplazaría la copia de AsyncStorage. Así falla, se conserva la copia y aparece el aviso (RF8, D13).
+  const snap = await conTiempoMaximo(getDocsFromServer(query(coleccion(uid), orderBy('agregadoEn', 'desc'))));
   return snap.docs.map(aItem);
 }
 
