@@ -128,7 +128,7 @@ export function SelectorAnio({
 }) {
   const s = useEstilos(estilos);
   return (
-    <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.anios}>
+    <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.selector} contentContainerStyle={s.anios}>
       {anios.map((anio) => (
         <Chip key={anio} texto={String(anio)} activo={anio === valor} onPress={() => onCambiar(anio)} />
       ))}
@@ -162,5 +162,6 @@ const estilos = ({ color }: Tema) =>
     destacada: { flexDirection: 'row', alignItems: 'center', gap: espacio.l },
     poster: { width: 72 },
 
-    anios: { gap: espacio.s },
+    selector: { flexGrow: 0 }, // sin esto, el ScrollView horizontal estira los chips
+    anios: { gap: espacio.s, alignItems: 'center' },
   });
