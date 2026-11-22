@@ -42,23 +42,30 @@ export function traducirErrorAuth(error: unknown, extra: Record<string, string> 
   return extra[codigo] ?? MENSAJES[codigo] ?? 'No se pudo completar la operación. Vuelve a intentarlo.';
 }
 
-export const iniciarSesion = (correo: string, clave: string) =>
-  signInWithEmailAndPassword(auth, correo.trim(), clave);
+export const iniciarSesion = (correo: string, clave: string) => signInWithEmailAndPassword(auth, correo.trim(), clave);
 
 /** Crea la cuenta, pide verificar el correo y guarda el perfil con el nombre de usuario reservado. */
 export async function registrar({ correo, clave, nombre, apellido, usuario }: DatosRegistro): Promise<void> {
   if (!(await usuarioDisponible(usuario))) throw new UsuarioOcupadoError();
   const { user } = await createUserWithEmailAndPassword(auth, correo.trim(), clave);
   void sendEmailVerification(user).catch(() => {});
-  // Si falla (red o alguien tomó el usuario en ese instante), Perfil pide completarlo.
-  await guardarPerfil(user.uid, { nombre, apellido, usuario, foto: null }, null).catch(() => {});
+  const guardar = () => guardarPerfil(user.uid, { nombre, apellido, usuario, foto: null }, null);
+  await guardar()
+    .catch(async (error: unknown) => {
+      // Justo después de crear la cuenta, Firestore puede seguir con las credenciales anteriores
+      // y rechazar el lote; con un momento de espera ya las tiene.
+      if (!(error instanceof FirebaseError && error.code === 'permission-denied')) throw error;
+      await new Promise((listo) => setTimeout(listo, 1500));
+      return guardar();
+    })
+    // Si aun así falla (sin red o el usuario se tomó en ese instante), Perfil pide completarlo.
+    .catch(() => {});
 }
 
 export const cerrarSesion = () => signOut(auth);
 
 /** Devuelve la función para dejar de escuchar. */
-export const escucharSesion = (alCambiar: (usuario: User | null) => void) =>
-  onAuthStateChanged(auth, alCambiar);
+export const escucharSesion = (alCambiar: (usuario: User | null) => void) => onAuthStateChanged(auth, alCambiar);
 
 // ---------- Seguridad de la cuenta ----------
 
