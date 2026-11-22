@@ -36,18 +36,28 @@ export interface DetalleObra extends Obra {
   calificacion: number;
   generos: string[];
   duracion: string; // "1 h 50 min" o "3 temporadas"; '' si no hay dato
+  duracionMin: number | null; // solo películas
+  directores: string[]; // solo películas
   elenco: MiembroElenco[];
   trailerKey: string | null; // clave de YouTube
 }
 
 /** Documento de usuarios/{uid}/mi_lista/{itemId}. Las fechas van en milisegundos para poder cachearlas en JSON. */
-export interface ItemLista extends Obra {
+export interface ItemLista extends Obra, DatosObra {
   id: string; // itemId = `${tipo}_${tmdbId}`
   estado: EstadoVisionado;
   calificacionPersonal: number | null; // 1–5, solo si estado === 'vista'
   comentario: string; // hasta 500 caracteres
   agregadoEn: number;
   actualizadoEn: number;
+  vistaEn: number | null; // D1: cuándo pasó a vista (ms); null si no está vista
+}
+
+/** Datos de TMDB que se guardan al agregar (D5). */
+export interface DatosObra {
+  generos: string[] | null; // null = la obra aún no tiene datos (campo ausente en Firestore)
+  duracionMin: number | null; // solo películas
+  directores: string[]; // solo películas
 }
 
 export type CambiosItem = Pick<ItemLista, 'estado' | 'calificacionPersonal' | 'comentario'>;
@@ -105,6 +115,6 @@ export interface TmdbDetalle extends Omit<TmdbResultado, 'media_type'> {
   genres: { id: number; name: string }[];
   runtime?: number;
   number_of_seasons?: number;
-  credits?: { cast: TmdbMiembroElenco[] };
+  credits?: { cast: TmdbMiembroElenco[]; crew?: { name: string; job: string }[] };
   videos?: { results: { key: string; site: string; type: string }[] };
 }

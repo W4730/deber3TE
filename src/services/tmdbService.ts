@@ -1,4 +1,5 @@
 import type {
+  DatosObra,
   DetalleObra,
   PaginaBusqueda,
   ResultadoBusqueda,
@@ -97,6 +98,12 @@ export async function obtenerDetalle(tipo: TipoObra, id: number): Promise<Detall
     calificacion: d.vote_average,
     generos: d.genres.map((g) => g.name),
     duracion: duracion(d),
+    // D5: duración y directores solo en películas (máximo 10, como validan las reglas).
+    duracionMin: tipo === 'movie' && d.runtime ? d.runtime : null,
+    directores:
+      tipo === 'movie'
+        ? [...new Set((d.credits?.crew ?? []).filter((c) => c.job === 'Director').map((c) => c.name))].slice(0, 10)
+        : [],
     elenco: (d.credits?.cast ?? []).slice(0, 15).map((c) => ({
       id: c.id,
       nombre: c.name,
@@ -108,3 +115,13 @@ export async function obtenerDetalle(tipo: TipoObra, id: number): Promise<Detall
   detalles.set(clave, detalle);
   return detalle;
 }
+
+/** D5: lo que se guarda en mi_lista a partir del detalle. */
+export const datosDeDetalle = (d: DetalleObra): DatosObra => ({
+  generos: d.generos.slice(0, 10),
+  duracionMin: d.duracionMin,
+  directores: d.directores,
+});
+
+/** D6: datos de una obra ya guardada (usa la caché de obtenerDetalle). */
+export const datosObra = async (tipo: TipoObra, id: number) => datosDeDetalle(await obtenerDetalle(tipo, id));
