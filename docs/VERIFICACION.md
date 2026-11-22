@@ -2,7 +2,7 @@
 
 **Cómo se llena:**
 
-- La columna **Resultado obtenido** se completa **a mano** probando en el teléfono con Expo Go (SDK 57), con fecha.
+- La columna **Resultado obtenido** se completa **a mano** probando en el teléfono con Expo Go (SDK 58), con fecha.
 - Los criterios marcados **T** también los cubre un test automático. Su estado está en la columna _Test_: cada test lleva el nombre de su archivo en `src/dominio/`, y "pasa" significa que pasó en `npm test` el 22-nov-2026.
 
 **Antes de probar:**

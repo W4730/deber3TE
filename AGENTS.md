@@ -1,6 +1,6 @@
 # Cinta · Mi Cartelera Personal
 
-App móvil (Expo SDK 57, React Native 0.86, TypeScript) donde cada usuario busca películas y series en TMDB y las organiza en su lista privada: por ver, viendo o vista, con calificación y comentario. Firebase Auth y Firestore guardan las cuentas y las listas; AsyncStorage guarda una copia para usarla sin conexión. Se prueba en **Expo Go** (SDK 57).
+App móvil (Expo SDK 58, React Native 0.88, TypeScript) donde cada usuario busca películas y series en TMDB y las organiza en su lista privada: por ver, viendo o vista, con calificación y comentario. Firebase Auth y Firestore guardan las cuentas y las listas; AsyncStorage guarda una copia para usarla sin conexión. Se prueba en **Expo Go** (SDK 58).
 
 ## Capas y carpetas
 
@@ -43,4 +43,4 @@ npx expo-doctor      # dependencias compatibles con el SDK
 - **Accesibilidad:** elementos tocables de al menos 44 px; las acciones destructivas piden confirmación.
 - **Atribución de TMDB:** siempre visible y menos prominente que la marca de la app.
 - **Commits:** en español, con la skill `/commit`.
-- **API de Expo:** antes de usar una API de Expo o React Native, consultar la documentación de la versión instalada (`https://docs.expo.dev/versions/v57.0.0/`), no la memoria.
+- **API de Expo:** antes de usar una API de Expo o React Native, consultar la documentación de la versión instalada (`https://docs.expo.dev/versions/v58.0.0/`), no la memoria.

@@ -52,7 +52,7 @@ Los tests de dominio fijan la zona horaria (`America/Guayaquil`) en [vitest.conf
 
 ## Instalación
 
-Requisitos: Node 22.13 o superior y la app **Expo Go** para SDK 57 en el teléfono (el proyecto usa Expo SDK 57).
+Requisitos: Node 22.13 o superior y la app **Expo Go** para SDK 58 en el teléfono (el proyecto usa Expo SDK 58).
 
 ```bash
 npm install
