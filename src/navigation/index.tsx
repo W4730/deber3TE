@@ -19,6 +19,7 @@ import { DetalleScreen } from '../screens/DetalleScreen';
 import { EditarPerfilScreen } from '../screens/EditarPerfilScreen';
 import { EditarScreen } from '../screens/EditarScreen';
 import { LoginScreen } from '../screens/LoginScreen';
+import { MiAnioScreen } from '../screens/MiAnioScreen';
 import { MiListaScreen } from '../screens/MiListaScreen';
 import { PerfilScreen } from '../screens/PerfilScreen';
 import { SeguridadScreen } from '../screens/SeguridadScreen';
@@ -28,6 +29,7 @@ import type { TipoObra } from '../types';
 export type PestanasParams = {
   Buscar: undefined;
   MiLista: undefined;
+  MiAnio: undefined;
   Perfil: undefined;
 };
 
@@ -56,6 +58,7 @@ const Pestanas = createBottomTabNavigator<PestanasParams>();
 const ICONOS: Record<keyof PestanasParams, LucideIconName> = {
   Buscar: 'search',
   MiLista: 'bookmark',
+  MiAnio: 'chart-column',
   Perfil: 'user',
 };
 
@@ -88,6 +91,7 @@ function PestanasPrincipales() {
     >
       <Pestanas.Screen name="Buscar" component={BuscarScreen} />
       <Pestanas.Screen name="MiLista" component={MiListaScreen} options={{ title: 'Mi lista' }} />
+      <Pestanas.Screen name="MiAnio" component={MiAnioScreen} options={{ title: 'Mi año' }} />
       <Pestanas.Screen name="Perfil" component={PerfilScreen} />
     </Pestanas.Navigator>
   );
