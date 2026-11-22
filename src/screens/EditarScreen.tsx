@@ -213,7 +213,7 @@ const estilos = ({ color }: Tema) =>
       backgroundColor: color.superficie,
     },
     portadaVelo: {
-      experimental_backgroundImage: color.veloPortada,
+      backgroundImage: color.veloPortada,
     },
     titulo: { color: color.texto, fontSize: 26, fontWeight: '800', letterSpacing: -0.6, marginBottom: 2 },
 

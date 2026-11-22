@@ -40,7 +40,8 @@
           "imageWidth": 160,
           "backgroundColor": "#0A0A0A"
         }
-      ]
+      ],
+      "expo-status-bar"
     ],
     "backgroundColor": "#0A0A0A",
     "extra": {

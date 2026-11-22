@@ -370,7 +370,7 @@ export const useAsegurarVisible = () => useContext(AsegurarVisibleContext);
  * activo hasta que quede por encima del teclado (funciona igual en iOS y Android edge-to-edge).
  */
 export function Formulario({ children, ...props }: ScrollViewProps) {
-  const ref = useRef<ScrollView>(null);
+  const ref = useRef<ComponentRef<typeof ScrollView>>(null);
   const desplazamiento = useRef(0);
   const bordeTeclado = useRef<number | null>(null); // y del borde superior del teclado
   const [altoTeclado, setAltoTeclado] = useState(0);
@@ -630,7 +630,7 @@ const estilos = ({ color }: Tema) =>
 
     hero: { alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
     heroVelo: {
-      experimental_backgroundImage: color.veloHero,
+      backgroundImage: color.veloHero,
     },
 
     avatar: {

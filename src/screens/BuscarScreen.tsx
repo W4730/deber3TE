@@ -288,7 +288,7 @@ const estilos = ({ color }: Tema) =>
     posterVelo: {
       ...StyleSheet.absoluteFill,
       borderRadius: radio.m,
-      experimental_backgroundImage: color.veloPoster,
+      backgroundImage: color.veloPoster,
     },
     posterArriba: {
       position: 'absolute',
