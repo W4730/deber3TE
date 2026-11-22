@@ -156,7 +156,7 @@ const estilos = ({ color }: Tema) =>
     barra: { minHeight: 3, borderTopLeftRadius: 4, borderTopRightRadius: 4, backgroundColor: color.barra },
     barraTop: { backgroundColor: color.acento },
     meses: { flexDirection: 'row', gap: 6, marginTop: 6 },
-    mes: { flex: 1, textAlign: 'center', fontSize: 10, fontWeight: '600', color: color.textoTenue },
+    mes: { flex: 1, textAlign: 'center', fontSize: 11, fontWeight: '600', color: color.textoTenue },
     mesTop: { color: color.acento },
 
     destacada: { flexDirection: 'row', alignItems: 'center', gap: espacio.l },

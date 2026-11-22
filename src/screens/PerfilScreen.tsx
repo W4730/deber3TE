@@ -173,7 +173,7 @@ const estilos = ({ color }: Tema) =>
 
     datos: { flexDirection: 'row', gap: 8, marginTop: 16 },
     dato: { flex: 1, padding: 10, borderRadius: radio.s, backgroundColor: color.fondo },
-    datoEtiqueta: { color: color.textoTenue, fontSize: 10 },
+    datoEtiqueta: { color: color.textoTenue, fontSize: 11 },
     datoValor: { color: color.texto, fontSize: 18, fontWeight: '800', marginTop: 4 },
 
     accesos: { gap: 8 },

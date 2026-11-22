@@ -561,7 +561,7 @@ const estilos = ({ color }: Tema) =>
       borderWidth: 1,
       borderColor: 'transparent',
     },
-    etiquetaTexto: { fontSize: 10, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase' },
+    etiquetaTexto: { fontSize: 11, fontWeight: '800', letterSpacing: 0.8, textTransform: 'uppercase' },
 
     tarjeta: {
       backgroundColor: color.superficie,
