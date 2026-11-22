@@ -365,35 +365,47 @@ const AsegurarVisibleContext = createContext<() => void>(() => {});
 /** Para campos propios dentro de <Formulario>: llamarla en onFocus. */
 export const useAsegurarVisible = () => useContext(AsegurarVisibleContext);
 
+/** Distancia desde el borde superior del formulario a la que se deja el campo activo. */
+const MARGEN_CAMPO = 96;
+
 /**
- * ScrollView para formularios. Al abrir el teclado o pasar a otro campo, desplaza el campo
- * activo hasta que quede por encima del teclado (funciona igual en iOS y Android edge-to-edge).
+ * ScrollView para formularios. Al abrir el teclado o pasar a otro campo, si el campo activo cae
+ * en la zona que cubre el teclado, lo sube hasta MARGEN_CAMPO del borde superior del formulario.
+ * Campo y formulario se miden en el mismo sistema (la ventana) y del teclado solo se usa su alto:
+ * en Android las coordenadas del teclado son de pantalla y no coinciden con las de la ventana.
  */
 export function Formulario({ children, ...props }: ScrollViewProps) {
   const ref = useRef<ComponentRef<typeof ScrollView>>(null);
   const desplazamiento = useRef(0);
-  const bordeTeclado = useRef<number | null>(null); // y del borde superior del teclado
+  const altoTecladoRef = useRef(0);
   const [altoTeclado, setAltoTeclado] = useState(0);
 
   const asegurarVisible = useCallback(() => {
-    const borde = bordeTeclado.current;
+    const formulario = ref.current;
     const campo = TextInput.State.currentlyFocusedInput?.(); // no existe en web, donde no hace falta
-    if (borde === null || !campo) return;
-    campo.measureInWindow((_x, y, _ancho, alto) => {
-      const tapado = y + alto + 24 - borde;
-      if (tapado > 0) ref.current?.scrollTo({ y: desplazamiento.current + tapado, animated: true });
+    if (!altoTecladoRef.current || !formulario || !campo) return;
+    formulario.measureInWindow((_fx, fy, _fAncho, fAlto) => {
+      campo.measureInWindow((_x, y, _ancho, alto) => {
+        const posicion = y - fy; // dentro del área visible del formulario
+        // Estimación prudente: el teclado tapa su alto desde el borde inferior del formulario.
+        const visible = fAlto - altoTecladoRef.current - 16;
+        if (posicion + alto > visible || posicion < 0) {
+          formulario.scrollTo({ y: Math.max(0, desplazamiento.current + posicion - MARGEN_CAMPO), animated: true });
+        }
+      });
     });
   }, []);
 
   useEffect(() => {
     const ios = Platform.OS === 'ios';
     const mostrar = Keyboard.addListener(ios ? 'keyboardWillShow' : 'keyboardDidShow', (e) => {
-      bordeTeclado.current = e.endCoordinates.screenY;
+      altoTecladoRef.current = e.endCoordinates.height;
       setAltoTeclado(e.endCoordinates.height);
-      setTimeout(asegurarVisible, ios ? 300 : 100); // espera la animación y el relleno inferior
+      // Espera la animación del teclado y a que exista el relleno inferior (si no, el scroll se queda corto).
+      setTimeout(asegurarVisible, ios ? 300 : 250);
     });
     const ocultar = Keyboard.addListener(ios ? 'keyboardWillHide' : 'keyboardDidHide', () => {
-      bordeTeclado.current = null;
+      altoTecladoRef.current = 0;
       setAltoTeclado(0);
     });
     return () => {
