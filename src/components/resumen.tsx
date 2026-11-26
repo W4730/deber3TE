@@ -45,7 +45,9 @@ export function TarjetaDato({
       <Text
         style={compacto ? texto.titulo : texto.dato}
         numberOfLines={compacto ? 2 : 1}
-        adjustsFontSizeToFit={!compacto}
+        // Con texto grande, un nombre largo ("Christopher Nolan") se achica en vez de cortarse a mitad de palabra.
+        adjustsFontSizeToFit
+        minimumFontScale={0.6}
       >
         {valor}
       </Text>
