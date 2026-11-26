@@ -65,7 +65,13 @@ function aItem(snap: QueryDocumentSnapshot): ItemLista {
 export async function obtener(uid: string): Promise<ItemLista[]> {
   // Del servidor: sin red, getDocs devolvería la caché en memoria (vacía al abrir la app) y esa lista
   // vacía reemplazaría la copia de AsyncStorage. Así falla, se conserva la copia y aparece el aviso (RF8, D13).
-  const snap = await conTiempoMaximo(getDocsFromServer(query(coleccion(uid), orderBy('agregadoEn', 'desc'))));
+  const pedir = () => conTiempoMaximo(getDocsFromServer(query(coleccion(uid), orderBy('agregadoEn', 'desc'))));
+  // Al abrir la app, la primera consulta puede llegar antes de que Firestore termine de conectarse:
+  // un reintento evita el aviso "Sin conexión" falso. Mientras tanto se ve la copia local.
+  const snap = await pedir().catch(async () => {
+    await new Promise((listo) => setTimeout(listo, 1500));
+    return pedir();
+  });
   return snap.docs.map(aItem);
 }
 
